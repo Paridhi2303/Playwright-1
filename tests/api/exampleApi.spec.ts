@@ -1,43 +1,55 @@
-import { test, expect } from "@playwright/test";
+import {test,expect, request} from '@playwright/test'
+import config from '../testdata/config.json' with { type: 'json' };
 
-test.describe("@API example", () => {
-    const baseURL="https://reqres.in"
-  test("@API status endpoint returns 200", async ({ request }) => {
-    const response= await request.get(`${baseURL}/api/users/2`)
-    const body=await response.json()
-    console.log(body.data.id)
-    expect(response.status()).toBe(200)
-    expect(body.data.id).toBe(2)
+test.describe('API Test', () => {
+  const baseurl='https://reqres.in/'
+test.only("api get operation ",async({request})=>{
+  const response=await request.get(`${config.api}/api/users/2`)
+  console.log(await response.json())
+  expect(response.status()).toBe(200)
+  const body=await response.json()
+console.log(body.data.email)
+  expect(body.data.id).toBe(2)
+})
+test("api post request ",async({request})=>{
+  const baseurl='https://reqres.in/'
+  const reqbody={
+    "name": "asif",
+    "job": "leader"
+  }
+  const response = await request.post(`${baseurl}api/users`,{data:reqbody})
+  expect(response.status()).toBe(201)
+})
+///////////////////
+test("api put request ",async({request})=>{
+  const baseurl='https://reqres.in/'
+  const response = await request.put(`${baseurl}api/users/2`,{data:{
+     "name": "Asif",
+  "job": "test resident"
+  }})
+  expect(response.status()).toBe(200)
+console.log(await response.json())
+})
+test("patch request ",async({request})=>{
+  const response=await request.patch(`${baseurl}api/users/2`,{data:{
+  "job": "changed job"
+  }})
+  expect(response.status()).toBe(200)
+  console.log(await response.json())
+})
 
-  });
-  test("post call api", async ({request})=>{
-    const reqbody={
-        "name": "morpheus",
-        "job": "leader"
-      }
-    const response= await request.post(`${baseURL}/api/users`,{data:reqbody})
-    console.log(response.status())
-    console.log(await response.json())
+test("Delete request ",async({request})=>{
+  const baseurl='https://reqres.in/'
+  const reposne=await request.delete(`${baseurl}api/users/2`)
+  expect(reposne.status()).toBe(204)
+})
 
-    const genid=await response.json()
-    console.log(genid.id)
-    
-  });
-  test("post auth",async ({request})=>{
-    const response=await request.post(`${baseURL}/api/register`,{
-        headers:{
-            "Content-Type": "application/json"
-        },
-        data:{
-            
-                "email": "eve.holt@reqres.in",
-                "password": "pistol"
-              
-        }
-    })
-    const body=await response.json()
-    console.log(body.token)
-  })
-  
-});
-
+// header and query / param
+test("api get with headers request ",async({request})=>{
+  const baseurl='https://reqres.in/'
+  const response = await request.get(`${baseurl}api/users`,{headers:{"Content-Type":"application/json"},params:{
+    page:2
+  }})
+  expect(response.status()).toBe(200)
+})
+})

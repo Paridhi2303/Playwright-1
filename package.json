@@ -5,6 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "test:bdd": "bddgen && playwright test --project=bdd-*",
+  "test:cross": "bddgen && playwright test --project=bdd-edge --project=bdd-firefox --project=bdd-webkit",
     "Regression": "npx playwright test",
     "WebTests": "npx playwright test --grep @web",
     "APITests": "npx playwright test --grep @API"
@@ -21,7 +23,7 @@
   },
   "homepage": "https://github.com/keshavjha06/PlaywrightFramework#readme",
   "devDependencies": {
-    "@playwright/test": "^1.57.0"
-  },
-  "dependencies": {}
+    "@playwright/test": "^1.57.0",
+    "playwright-bdd": "^9.2.1"
+  }
 }

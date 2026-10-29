@@ -1,0 +1,9 @@
+{
+   "api":{
+     "baseUrl":"https://reqres.in",
+    "endpointLogin":"/api/login"
+   },
+   "ui":{
+    "webURL":"https://www.saucedemo.com/"
+   }
+}
