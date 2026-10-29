@@ -1,22 +1,55 @@
 // @ts-check
 import { defineConfig, devices } from "@playwright/test";
+import { defineBddConfig } from "playwright-bdd";
 
+const bddTestDir = defineBddConfig({
+  features: "src/features/**/*.feature",
+  steps: "src/steps/**/*.ts",
+});
 
 export default defineConfig({
-  testDir: "./tests",
-  /* Increased timeout to 120s to allow Gemini and PDF generation to finish without crashing */
   timeout: 120 * 1000,
   retries: 0,
-  expect: {
-    timeout: 5000,
-  },
+  expect: { timeout: 5000 },
   reporter: "html",
-  /* Shared settings for all the projects below. */
+
+  fullyParallel: true, 
+  workers: 4,        
   use: {
-    browserName: "chromium",
-    channel: "msedge", 
-    headless: true, // Set to false so you can see the scraping happen
-    screenshot: "on",
+    headless: false,
+    screenshot: "off",
+    video: "retain-on-failure",
     trace: "retain-on-failure",
   },
+
+  projects: [
+ 
+    {
+      name: "bdd-edge",
+      testDir: bddTestDir,
+      use: { ...devices["Desktop Edge"], channel: "msedge" },
+    },
+    {
+      name: "bdd-chrome",
+      testDir: bddTestDir,
+      use: { ...devices["Desktop Chrome"], channel: "chrome" },
+    },
+    {
+      name: "bdd-firefox",
+      testDir: bddTestDir,
+      use: { ...devices["Desktop Firefox"] },
+    },
+    {
+      name: "bdd-webkit",
+      testDir: bddTestDir,
+      use: { ...devices["Desktop Safari"] },
+    },
+
+    // Existing tests, kept on Edge only
+    {
+      name: "legacy",
+      testDir: "./tests",
+      use: { ...devices["Desktop Edge"], channel: "msedge" },
+    },
+  ],
 });
