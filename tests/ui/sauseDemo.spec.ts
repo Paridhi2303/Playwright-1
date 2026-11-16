@@ -9,7 +9,9 @@ let obj=new Login(page)
 await obj.login("standard_user","secret_sauce")
 let actual=await page.title();
 await page.goto("https://www.google.com")
+await page.goto("https://www.amazon.com/")
 let pgtitle=await page.title()
+console.log(pgtitle)
 
 
 

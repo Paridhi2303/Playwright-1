@@ -1,0 +1,13 @@
+{
+   "api":{
+     "baseUrl":"https://reqres.in",
+    "endpointLogin":"/api/login"
+   },
+   "ui":{
+    "webURL":"https://www.saucedemo.com/"
+   },
+   "API_Hands":{
+      "Base_URL":"https://automationexercise.com",
+      "End_Point": "/api/productsList"
+   }
+}
