@@ -13,10 +13,10 @@ async function login(page: Page) {
   await page.locator('[data-qa="login-password"]').fill(TEST_PASSWORD);
   await page.locator('[data-qa="login-button"]').click();
 
-  await expect(page.getByText('Logged in as')).toBeVisible();
+  await expect(page.locator('a').filter({ hasText: 'Logged in as' })).toBeVisible();
 }
 
 test('AE-002 - Login with valid credentials', async ({ page }) => {
   await login(page);
-  await expect(page.getByText('Logged in as')).toBeVisible();
+  await expect(page.locator('a').filter({ hasText: 'Logged in as' })).toBeVisible();
 });
