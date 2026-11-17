@@ -10,7 +10,7 @@ test('AE-005 - View products and product details', async ({ page }) => {
   await expect(page).toHaveURL(/products/);
   await expect(page.locator('.features_items')).toBeVisible();
 
-  await page.locator('a[href="/product_details/2"]').click();
+  await page.locator('a[href="/product_details/"]').click();
 
   await expect(page).toHaveURL('/products/');
   await expect(page.locator('.product-information')).toBeVisible();
